@@ -1,16 +1,32 @@
 package Application.BLL;
 
-import Application.GUI.Models.CitizenModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import Application.BE.Citizen;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class StudentDataManager {
 
-    public StudentDataManager() {
+    public StudentDataManager()
+    {
 
     }
 
-    public ObservableList<CitizenModel> getAllCitizens() {
-        return FXCollections.observableArrayList(); //TODO: implement
+    public List<Citizen> getAllCitizens() throws SQLException
+    {
+        return null;
+    }
+
+    public void updateCitizen(Citizen citizen) throws IllegalArgumentException, SQLException
+    {
+        if (citizen != null)
+        {
+               citizenDAO.updateCitizen();
+        }
+        else
+        {
+            throw new IllegalArgumentException("");
+        }
     }
 }

@@ -1,128 +1,160 @@
 package Application.BE;
 
-import Application.DAL.Annotations.SQLColumn;
-import Application.DAL.Annotations.SQLGetter;
-import Application.DAL.Annotations.SQLSetter;
-import Application.DAL.Annotations.SQLTable;
+import java.util.HashMap;
 
-@SQLTable(name = "citizen")
-public class Citizen
+public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 {
-    @SQLColumn(name = "citizenId")
     private int id;
-
-    @SQLColumn(name = "cFirstName")
+    private School school;
     private String firstname;
-
-    @SQLColumn(name = "cSurname")
     private String lastname;
-
-    @SQLColumn(name = "cAge")
     private int age;
+    private boolean isTemplate;
 
-    @SQLColumn(name = "cStreet")
-    private int streetID;
-
-    @SQLColumn(name = "cStreetNumber")
-    private int streetNumber;
-
-    @SQLColumn(name = "cZipCode")
+    private GeneralJournal journal;
     private int zipCode;
 
-    @SQLColumn(name = "cSchool")
-    private int schoolID;
+    private HashMap<Category, FunctionalEntry> healthCategoryEntries;
 
-    public Citizen(int id, String firstname, String lastname, int age, int streetID, int streetNumber, int zipCode, int schoolID) {
-        this.id = id;
+    private HashMap<Category, FunctionalEntry> funcCategoryEntries;
+
+
+    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, boolean template)
+    {
+        this(id);
+        this.journal = journal;
+        this.school = school;
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
-        this.streetID = streetID;
-        this.streetNumber = streetNumber;
-        this.zipCode = zipCode;
-        this.schoolID = schoolID;
+        this.isTemplate = template;
+
+        funcCategoryEntries = new HashMap<>();
+        healthCategoryEntries = new HashMap<>();
     }
 
-
-    @SQLGetter(name = "cStreetNumber")
-    public int getStreetNumber() {
-        return streetNumber;
+    public Citizen(int id)
+    {
+        this.id = id;
     }
 
-    @SQLSetter(name = "cStreetNumber")
-    public void setStreetNumber(int streetNumber) {
-        this.streetNumber = streetNumber;
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 
-    @SQLGetter(name = "cZipCode")
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
+    }
+
     public int getZipCode() {
         return zipCode;
     }
 
-    @SQLSetter(name = "cZipCode")
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
 
-    @SQLGetter(name = "cSchool")
-    public int getSchoolID() {
-        return schoolID;
-    }
-
-    @SQLSetter(name = "cSchool")
-    public void setSchoolID(int schoolID) {
-        this.schoolID = schoolID;
-    }
-
-    @SQLGetter(name = "cStreet")
-    public int getStreetID() {
-        return streetID;
-    }
-
-    @SQLSetter(name = "cStreet")
-    public void setStreetID(int streetID) {
-        this.streetID = streetID;
-    }
-
-    @SQLGetter(name = "cAge")
     public int getAge() {
         return age;
     }
 
-    @SQLSetter(name = "cAge")
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @SQLGetter(name = "cFirstName")
     public String getFirstname() {
         return firstname;
     }
 
-    @SQLSetter(name = "cFirstName")
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    @SQLGetter(name = "citizenId")
-    public int getId() {
-        return id;
-    }
 
-    @SQLSetter(name = "citizenId")
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @SQLGetter(name = "cSurname")
     public String getLastname() {
         return lastname;
     }
 
-    @SQLSetter(name = "cSurname")
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public GeneralJournal getJournal()
+    {
+        return journal;
+    }
+
+    public void setJournal(GeneralJournal journal)
+    {
+        this.journal = journal;
+    }
+
+    public School getSchool()
+    {
+        return school;
+    }
+
+    public void setSchool(School school)
+    {
+        this.school = school;
+    }
+
+    public void setContent(HashMap<Category, FunctionalEntry> content)
+    {
+        // populate lists (healthCategoryEntries, funcCategoryEntries)
+    }
+    
+    public void setFunctionalAbilities (HashMap<Category, FunctionalEntry> functionalAbilities) {
+        funcCategoryEntries.clear();
+        for (FunctionalEntry entry : functionalAbilities.values()) {
+            funcCategoryEntries.put(entry.getCategory(), entry);
+        };
+    }
+
+    public void setHealthConditions (HashMap<Category, FunctionalEntry> healthConditions) {
+        healthCategoryEntries.clear();
+        for (FunctionalEntry entry : healthConditions.values()) {
+            healthCategoryEntries.put(entry.getCategory(), entry);
+        };
+    }
+
+    public HashMap<Category, FunctionalEntry> getFunctionalAbilities() {
+        return funcCategoryEntries;
+    }
+
+    public HashMap<Category, FunctionalEntry> getHealthConditions() {
+        return healthCategoryEntries;
+    }
+
+    public void addFunctionalAbility (FunctionalEntry entry)
+    {
+        funcCategoryEntries.put(entry.getCategory(), entry);
+    }
+
+    public void addHealthConditions (FunctionalEntry entry)
+    {
+        healthCategoryEntries.put(entry.getCategory(), entry);
+    }
+
+    public GeneralJournal getGeneralInfo () {
+        return journal;
+    }
+
+    public void setGeneralJournal(GeneralJournal generalInfo){
+        this.journal = generalInfo;
+    }
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public boolean getTemplate()
+    {
+        return isTemplate;
+    }
+
+    public void setTemplate(boolean template)
+    {
+        this.isTemplate = template;
     }
 
 
 }
+
+
